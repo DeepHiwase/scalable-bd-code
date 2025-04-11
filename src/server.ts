@@ -6,6 +6,7 @@ import userRoutes from "./routes/userRoutes"
 import { corsUrl, port } from "./config"
 import todoRoutes from "./routes/todoRoutes"
 import { errorHandler } from "./middleware/errorMiddleware"
+import Logger from "./core/Logger"
 
 const PORT = port ?? 8080
 
@@ -25,4 +26,5 @@ app.use(errorHandler)
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`)
+  Logger.info(`Server is running on port ${PORT}`)
 })
