@@ -3,6 +3,7 @@ import asyncHandler from "express-async-handler"
 import User from "../models/userModel"
 import { NextFunction, Response } from "express"
 import { ProtectedRequest } from "../types/app-request"
+import { AccessTokenError, TokenExpiredError } from "../core/CustomError"
 
 const protect = asyncHandler(async (req: ProtectedRequest, res: Response, next: NextFunction) => {
   let token
@@ -18,12 +19,10 @@ const protect = asyncHandler(async (req: ProtectedRequest, res: Response, next: 
       next()
     } catch (error) {
       console.error(error)
-      res.status(401)
-      throw new Error("Not authorized, token failed")
+      throw new TokenExpiredError("Not authorized, token failed")
     }
   } else {
-    res.status(401)
-    throw new Error("Not authorized, no token")
+    throw new AccessTokenError("Not authorized, no token")
   }
 })
 
